@@ -3,8 +3,8 @@
 pipeline {
     agent any
 
-    timestamps {
-        stages {
+    stages {
+        timestamps {
             node ("docker") {
                 stage("scm") {
                     checkout scm
