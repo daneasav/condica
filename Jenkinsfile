@@ -8,7 +8,7 @@ pipeline {
             node ("docker") {
                 stage("scm") {
                     checkout scm
-                },
+                }
                 stage('terraform') {
                     sh returnStdout: true, script: 'terraform.sh'
                 }
