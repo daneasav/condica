@@ -1,10 +1,10 @@
 #!groovy
 
-pipeline {
-    agent any
+timestamps {
+    pipeline {
+        agent any
 
-    stages {
-        timestamps {
+        stages {
             node ("docker") {
                 stage("scm") {
                     checkout scm
