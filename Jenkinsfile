@@ -1,9 +1,10 @@
 #!groovy
 
-
 pipeline {
     agent any
-    timestamps()
+    options {
+        timestamps()
+    }
 
     stages {
         stage("scm") {
