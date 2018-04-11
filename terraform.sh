@@ -1,20 +1,20 @@
 #!/bin/bash
 
-terrform-volume-name="terraform-config"
-terraform-image-name="hashicorp/terraform"
-terraform-image-version="0.11.6"
+terraform_volume_name="terraform-config"
+terraform_image_name="hashicorp/terraform"
+terraform_image_version="0.11.6"
 
-docker volume create "${terraform-volume-name}"
+docker volume create "${terraform_volume_name}"
 #docker run -it \
-#  -v "${terraform-volume-name}":/.terraform:rw \
+#  -v "${terraform_volume_name}":/.terraform:rw \
 #  -v "$(pwd)"/azure.tf:/tmp/azure.tf:ro \
-#  "${terraform-image-name}":"${terraform-image-version}" init /tmp
+#  "${terraform_image_name_":"${_}" init /tmp
 #docker run -it \
-#  -v "${terraform-volume-name}":/.terraform:rw \
+#  -v "${terraform_volume_name}":/.terraform:rw \
 #  -v "$(pwd)"/azure.tf:/tmp/azure.tf:ro \
-#  "${terraform-image-name}":"${terraform-image-version}" plan /tmp
+#  "${terraform_image_name_":"${_}" plan /tmp
 #docker run -it \
-#  -v "${terraform-volume-name}":/.terraform:rw \
+#  -v "${terraform_volume_name}":/.terraform:rw \
 #  -v "$(pwd)"/azure.tf:/tmp/azure.tf:ro \
-#  "${terraform-image-name}":"${terraform-image-version}" apply /tmp
-docker volume rm "${terraform-volume-name}"
+#  "${terraform_image_name_":"${_}" apply /tmp
+docker volume rm "${terraform_volume_name}"
