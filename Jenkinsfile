@@ -1,13 +1,18 @@
 #!groovy
 
-timestamps{
-    node {
-        stage("scm") {
-            checkout scm
-        }
+pipeline {
+    agent any
 
-        stage('terraform') {
-            sh returnStdout: true, script: 'terrafor.sh'
+    timestamps {
+        stages {
+            node ("docker") {
+                stage("scm") {
+                    checkout scm
+                },
+                stage('terraform') {
+                    sh returnStdout: true, script: 'terraform.sh'
+                }
+            } 
         }
     }
 }
