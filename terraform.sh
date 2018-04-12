@@ -5,15 +5,15 @@ terraform_image_name="hashicorp/terraform"
 terraform_image_version="0.11.6"
 
 docker volume create "${terraform_volume_name}"
-docker run -it \
+docker run \
   -v "${terraform_volume_name}":/.terraform:rw \
   -v "$(pwd)"/azure.tf:/tmp/azure.tf:ro \
   "${terraform_image_name}":"${terraform_image_version}" init /tmp
-docker run -it \
+docker run \
   -v "${terraform_volume_name}":/.terraform:rw \
   -v "$(pwd)"/azure.tf:/tmp/azure.tf:ro \
   "${terraform_image_name}":"${terraform_image_version}" plan /tmp
-docker run -it \
+docker run \
   -v "${terraform_volume_name}":/.terraform:rw \
   -v "$(pwd)"/azure.tf:/tmp/azure.tf:ro \
   "${terraform_image_name}":"${terraform_image_version}" apply /tmp
