@@ -58,4 +58,9 @@ resource "azurerm_function_app" "condik-function" {
   resource_group_name       = "${azurerm_resource_group.condik.name}"
   app_service_plan_id       = "${azurerm_app_service_plan.service-plan.id}"
   storage_connection_string = "${azurerm_storage_account.condik-storage.primary_connection_string}"
+
+  app_settings {
+    deployment-source-url     = "${var.github[repo_url]}"
+    deployment-source-branch  = "${var.github[branch]}"
+  }
 }
