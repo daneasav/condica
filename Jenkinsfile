@@ -16,7 +16,7 @@ pipeline {
         stage('terraform') {
             steps {
                 script {
-                    sh returnStdout: true, script: './terraform/terraform.sh'
+                    sh './terraform/terraform.sh'
                 }
             }
         }
