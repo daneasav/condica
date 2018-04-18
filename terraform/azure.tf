@@ -60,7 +60,7 @@ resource "azurerm_function_app" "condik-function" {
   storage_connection_string = "${azurerm_storage_account.condik-storage.primary_connection_string}"
 
   app_settings {
-    deployment-source-url     = "${var.github[repo_url]}"
-    deployment-source-branch  = "${var.github[branch]}"
+    deployment-source-url     = "${var.github["repo_url"]}"
+    deployment-source-branch  = "${var.github["branch"]}"
   }
 }
