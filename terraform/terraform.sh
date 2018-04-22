@@ -30,6 +30,10 @@ docker run --rm \
 docker run --rm \
   -v "${terraform_volume_name}":/.terraform:rw \
   -v "${terraform_config_volume_name}":/tmp:rw \
+  "${terraform_image_name}":"${terraform_image_version}" destroy -auto-approve /tmp
+docker run --rm \
+  -v "${terraform_volume_name}":/.terraform:rw \
+  -v "${terraform_config_volume_name}":/tmp:rw \
   "${terraform_image_name}":"${terraform_image_version}" apply -auto-approve /tmp
 
 # remove the volumes
