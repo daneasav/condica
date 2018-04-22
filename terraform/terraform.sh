@@ -1,10 +1,18 @@
 #!/bin/bash
 
+function terraform_run() {
+  terraform_image_name="hashicorp/terraform"
+  terraform_image_version="0.11.6"
+
+  docker run --rm \
+    -v "${terraform_volume_name}":/.terraform:rw \
+    -v "${terraform_config_volume_name}":/tmp:rw \
+    "${terraform_image_name}":"${terraform_image_version}" "$@"
+}
+
 terraform_volume_name="terraform"
 terraform_config_volume_name="terraform-config"
-terraform_image_name="hashicorp/terraform"
-terraform_image_version="0.11.6"
-
+  
 cd "$(dirname "$0")" || exit
 
 # create volumes
@@ -17,24 +25,13 @@ docker cp . helper:/tmp
 docker rm helper
 
 # terraform init, plan, apply
-docker run --rm \
-  -v "${terraform_volume_name}":/.terraform:rw \
-  -v "${terraform_config_volume_name}":/tmp:rw \
-  "${terraform_image_name}":"${terraform_image_version}" init /tmp
+terraform_run init /tmp
 
 # recreate infrastructure
-docker run --rm \
-  -v "${terraform_volume_name}":/.terraform:rw \
-  -v "${terraform_config_volume_name}":/tmp:rw \
-  "${terraform_image_name}":"${terraform_image_version}" plan /tmp
-docker run --rm \
-  -v "${terraform_volume_name}":/.terraform:rw \
-  -v "${terraform_config_volume_name}":/tmp:rw \
-  "${terraform_image_name}":"${terraform_image_version}" destroy -auto-approve /tmp
-docker run --rm \
-  -v "${terraform_volume_name}":/.terraform:rw \
-  -v "${terraform_config_volume_name}":/tmp:rw \
-  "${terraform_image_name}":"${terraform_image_version}" apply -auto-approve /tmp
+terraform_run plan /tmp
+terraform_run import azurerm_resource_group.condik condik
+terraform_run destroy -auto-approve /tmp
+terraform_run apply -auto-approve /tmp
 
 # remove the volumes
 docker volume rm "${terraform_volume_name}"
