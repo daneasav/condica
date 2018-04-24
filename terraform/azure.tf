@@ -4,13 +4,8 @@ variable "azure_client_id" {}
 variable "azure_client_secret" {}
 variable "azure_tenant_id" {}
 
-# github details
-variable "github" {
-  type = "map"
-  default = {
-    repo_url = "https://github.com/despickme/condica.git"
-    branch   = "master"
-  }
+variable "resource_group" {
+  default = "condik"
 }
 
 # Configure the Microsoft Azure Provider
@@ -23,7 +18,7 @@ provider "azurerm" {
 
 # create a resource group 
 resource "azurerm_resource_group" "condik" {
-    name = "condik"
+    name = "${var.resource_group}"
     location = "northeurope"
 }
 
@@ -54,7 +49,9 @@ resource "azurerm_function_app" "condik-function" {
   storage_connection_string = "${azurerm_storage_account.condik-storage.primary_connection_string}"
 
   app_settings {
-    deployment-source-url     = "${var.github["repo_url"]}"
-    deployment-source-branch  = "${var.github["branch"]}"
+  }
+
+  site_config = {
+    always_on = true
   }
 }

@@ -4,13 +4,15 @@ function terraform_run() {
   terraform_image_name="hashicorp/terraform"
   terraform_image_version="0.11.6"
 
-  echo "Run terrform with the following flags: " "$@" 
+  echo "Run terraform with the following flags: " "$@" 
 
   docker run --rm \
     -v "${terraform_volume_name}":/.terraform:rw \
     -v "${terraform_config_volume_name}":/tmp:rw \
     "${terraform_image_name}":"${terraform_image_version}" "$@"
 }
+
+resource_group=${1:-condik}
 
 terraform_volume_name="terraform"
 terraform_config_volume_name="terraform-config"
@@ -36,7 +38,7 @@ terraform_run init /tmp
 
 # delete current infrastructure
 terraform_run plan -out=/tmp/condik.tfplan ${terraform_vars} /tmp 
-terraform_run import -config=/tmp -state-out=/tmp/condik.tfstate ${terraform_vars} azurerm_resource_group.condik /subscriptions/${azure_subscription_id}/resourceGroups/condik
+terraform_run import -config=/tmp -state-out=/tmp/condik.tfstate ${terraform_vars} azurerm_resource_group.condik /subscriptions/${azure_subscription_id}/resourceGroups/${resource_group}
 terraform_run destroy -state=/tmp/condik.tfstate -auto-approve ${terraform_vars} /tmp
 
 # recreate infrastructure
