@@ -23,6 +23,8 @@ docker volume create "${azcli_volume_name}"
 
 echo "AAAAAAAAAAA ${git_url}"
 
+env | sort
+
 # create functions deployment
 azcli_run login --service-principal -u "${azure_client_id}" -p "${azure_client_secret}" --tenant "${azure_tenant_id}"
 azcli_run account set --subscription "${azure_subscription_id}"
