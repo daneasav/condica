@@ -9,6 +9,7 @@ pipeline {
 
     parameters {
         string(name: 'azure_resource_group', defaultValue: 'condik', description: 'Azure Resource Group')
+        string(name: 'azure_function_name', defaultValue: 'condik-record-entry', description: 'Azure Function Name')
         string(name: 'git_branch', defaultValue: 'master', description: 'The function GIT branch to deploy')
     }
 
@@ -36,14 +37,14 @@ pipeline {
                 echo "teraform"
                 /*
                 script {
-                    sh "./terraform/terraform.sh ${params.azure_resource_group}"
+                    sh "./terraform/terraform.sh ${params.azure_resource_group} ${azure_function_name}"
                 }*/
             }
         }
         stage('azure deployment') {
             steps {
                 script {
-                    sh "./azure/azure.sh ${params.azure_resource_group} ${params.git_branch}"
+                    sh "./azure/azure.sh ${params.azure_resource_group} ${params.azure_function_name} ${params.git_branch}"
                 }
             }
         }

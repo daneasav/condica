@@ -8,6 +8,10 @@ variable "resource_group" {
   default = "condik"
 }
 
+variable "function_name" {
+  default = "condik-record-entry"
+}
+
 # Configure the Microsoft Azure Provider
 provider "azurerm" {
   subscription_id = "${var.azure_subscription_id}"
@@ -42,7 +46,7 @@ resource "azurerm_app_service_plan" "service-plan" {
 }
 
 resource "azurerm_function_app" "condik-function" {
-  name                      = "condik-record-entry"
+  name                      = "${var.function_name}"
   location                  = "${azurerm_resource_group.condik.location}"
   resource_group_name       = "${azurerm_resource_group.condik.name}"
   app_service_plan_id       = "${azurerm_app_service_plan.service-plan.id}"

@@ -12,7 +12,8 @@ function azcli_run() {
 }
 
 resource_group=${1:-condik}
-git_branch=${2:-master}
+function_name=${2:-condik-record-entry}
+git_branch=${3:-master}
 
 azcli_volume_name="azcli"
 
@@ -25,7 +26,7 @@ docker volume create "${azcli_volume_name}"
 azcli_run login --service-principal -u "${azure_client_id}" -p "${azure_client_secret}" --tenant "${azure_tenant_id}"
 azcli_run account set --subscription "${azure_subscription_id}"
 azcli_run functionapp deployment source config \
-  --name "git_config_${git_branch}" \
+  --name "${function_name}" \
   --repo-url "${git_repo_url}" \
   --resource-group "${resource_group}" \
   --branch "${git_branch}" \
