@@ -32,7 +32,9 @@ pipeline {
             }
         }
         stage('terraform') {
-            steps {/*
+            steps {
+                echo "teraform"
+                /*
                 script {
                     sh "./terraform/terraform.sh ${params.azure_resource_group}"
                 }*/
