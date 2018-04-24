@@ -21,16 +21,12 @@ cd "$(dirname "$0")" || exit
 # create volumes
 docker volume create "${azcli_volume_name}"
 
-echo "AAAAAAAAAAA ${git_url}"
-
-env | sort
-
 # create functions deployment
 azcli_run login --service-principal -u "${azure_client_id}" -p "${azure_client_secret}" --tenant "${azure_tenant_id}"
 azcli_run account set --subscription "${azure_subscription_id}"
 azcli_run functionapp deployment source config \
   --name "git_config_${git_branch}" \
-  --repo-url "${git_url}" \
+  --repo-url "${git_repo_url}" \
   --resource-group "${resource_group}" \
   --branch "${git_branch}" \
   --git-token "${git_token}"

@@ -20,7 +20,7 @@ pipeline {
         azure_tenant_id       = credentials('azure_tenant_id')
 
         // git credentials
-        git_url               = credentials('git_url')
+        git_repo_url          = credentials('git_repo_url')
         git_token             = credentials('git_token')
     }
 
@@ -42,7 +42,6 @@ pipeline {
         }
         stage('azure deployment') {
             steps {
-                echo "AAAA ${git_url}"
                 script {
                     sh "./azure/azure.sh ${params.azure_resource_group} ${params.git_branch}"
                 }
