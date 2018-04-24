@@ -40,6 +40,7 @@ pipeline {
         }
         stage('azure deployment') {
             steps {
+                echo "AAAA ${git_url}"
                 script {
                     sh "./azure/azure.sh ${params.azure_resource_group} ${params.git_branch}"
                 }
