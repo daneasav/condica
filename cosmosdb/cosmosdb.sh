@@ -14,7 +14,7 @@ function azcli_run() {
 resource_group=${1:-condik}
 cosmosdb_name=${2:-condik-db}
 function_name=${3:-condik-record-entry}
-cosmosdb_account="condik-account"
+cosmosdb_account="condik-cosmosdb-account"
 cosmosdb_collection="UserInput"
 
 azcli_volume_name="azcli"
@@ -31,8 +31,8 @@ azcli_run account set --subscription "${azure_subscription_id}"
 # create cosmos db account, database and colletion
 azcli_run cosmosdb create \
   --name "${cosmosdb_account}" \
-  --resource-group "${resource_group}" \
-  --locations "northeurope"
+  --resource-group "${resource_group}" 
+#  --locations "northeurope"
 azcli_run cosmosdb database create \
   --db-name "${cosmosdb_name}" \
   --name "${cosmosdb_account}" \
