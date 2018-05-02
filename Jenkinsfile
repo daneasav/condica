@@ -9,6 +9,7 @@ pipeline {
 
     parameters {
         string(name: 'azure_resource_group', defaultValue: 'condik', description: 'Azure Resource Group')
+        string(name: 'azure_cosmosdb_name', defaultValue: 'condik-db', description: 'Azure Cosmos DB name')
         string(name: 'azure_function_name', defaultValue: 'condik-record-entry', description: 'Azure Function Name')
         string(name: 'git_branch', defaultValue: 'master', description: 'The function GIT branch to deploy')
     }
@@ -26,7 +27,7 @@ pipeline {
     }
 
     stages {
-        // this step is needed as the project clones the repo on master and not in the build workspace
+        // this step is needed as the project clones the repo (for the Jenkins file only) on master and not in the build workspace/slaves
         stage('scm') {
             steps {
                 checkout scm
@@ -35,16 +36,22 @@ pipeline {
         stage('terraform') {
             steps {
                 echo "teraform"
-                /*
                 script {
                     sh "./terraform/terraform.sh ${params.azure_resource_group} ${azure_function_name}"
-                }*/
+                }
             }
         }
         stage('azure deployment') {
             steps {
                 script {
                     sh "./azure/azure.sh ${params.azure_resource_group} ${params.azure_function_name} ${params.git_branch}"
+                }
+            }
+        }
+        stage('cosmos db') {
+            steps {
+                script {
+                    sh "./cosmosdb/cosmosdb.sh ${params.azure_resource_group} ${params.azure_cosmosdb_name} ${params.azure_function_name}"
                 }
             }
         }
